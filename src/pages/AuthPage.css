@@ -1,0 +1,76 @@
+.auth-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial;
+}
+
+/* LEFT SIDE */
+.auth-left {
+  flex: 1;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* RIGHT SIDE */
+.auth-right {
+  flex: 1;
+  background: #1f1f2e;
+  color: white;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-right input {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #2a2a40;
+  color: white;
+}
+
+.auth-btn {
+  margin-top: 20px;
+  padding: 12px;
+  background: #667eea;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.toggle-text {
+  margin-top: 20px;
+}
+
+.toggle-text span {
+  color: #667eea;
+  cursor: pointer;
+}
+.password-box {
+  position: relative;
+  margin-top: 15px;
+}
+
+.password-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #2a2a40;
+  color: white;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  cursor: pointer;
+  color: gray;
+}
