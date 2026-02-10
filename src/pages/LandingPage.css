@@ -3,153 +3,106 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* HEADER */
-.header {
+/* NAVBAR */
+
+.navbar {
   display: flex;
   justify-content: space-between;
-  padding: 20px 40px;
-  background: #667eea;
+  padding: 15px 40px;
+  background: #0d1b2a;
   color: white;
 }
 
-.logo a {
-  text-decoration: none;
-  color: white;
-  font-size: 24px;
+.logo {
   font-weight: bold;
 }
 
-.nav {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-}
-
-.nav a {
+.nav-links a {
+  margin-left: 25px;
   text-decoration: none;
   color: white;
-  font-weight: 500;
 }
 
 .login-btn {
-  background: white;
-  color: #667eea;
+  background: #3fa9f5;
   padding: 8px 15px;
-  border-radius: 6px;
+  border-radius: 20px;
 }
 
-/* HERO SECTION */
+/* HERO */
+
 .hero {
-  text-align: center;
-  padding: 100px 20px;
-  background: linear-gradient(to right, #667eea, #764ba2);
-  color: white;
+  padding: 60px 40px;
+  background: #f4f6f8;
 }
 
-.hero h1 {
-  font-size: 40px;
+/* TEMPLATE CARDS */
+
+.templates-section {
+  padding: 40px;
+  text-align: center;
+}
+
+.card-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.template-card {
+  width: 250px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.template-img {
+  height: 120px;
+  background: #c9d6df;
+  border-radius: 10px;
   margin-bottom: 15px;
 }
 
-.hero p {
-  font-size: 18px;
-  margin-bottom: 30px;
-}
+/* PRICING */
 
-.hero-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.primary-btn {
-  background: white;
-  color: #667eea;
-  padding: 12px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-}
-
-.secondary-btn {
-  border: 2px solid white;
-  padding: 12px 20px;
-  border-radius: 8px;
+.pricing-section {
+  background: #1b263b;
   color: white;
-  text-decoration: none;
-}
-.hamburger {
-  display: none;
-  font-size: 26px;
-  cursor: pointer;
-}
-
-@media (max-width:768px) {
-
-  .nav {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background: #667eea;
-    flex-direction: column;
-    width: 200px;
-    display: none;
-    padding: 20px;
-  }
-
-  .nav.active {
-    display: flex;
-  }
-
-  .hamburger {
-    display: block;
-  }
-}
-.hero {
+  padding: 60px;
   text-align: center;
-  padding: 120px 20px;
-  background: linear-gradient(to right,#667eea,#764ba2);
-  color: white;
 }
 
-.hero h1 {
-  font-size: 45px;
-  margin-bottom: 20px;
-}
-
-.hero p {
-  font-size: 20px;
-  margin-bottom: 30px;
-}
-
-.hero-buttons {
+.pricing-cards {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
+  margin-top: 40px;
 }
 
-.primary-btn {
+.pricing-card {
   background: white;
-  color: #667eea;
-  padding: 12px 25px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
+  color: black;
+  width: 260px;
+  padding: 25px;
+  border-radius: 10px;
 }
 
-.secondary-btn {
-  border: 2px solid white;
-  padding: 12px 25px;
-  border-radius: 8px;
-  text-decoration: none;
+.pricing-card.highlight {
+  border: 3px solid #3fa9f5;
+}
+
+.pricing-card ul {
+  text-align: left;
+}
+
+.pricing-card button {
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background: #3fa9f5;
   color: white;
-}
-.primary-btn:hover {
-  background: #f4f4f4;
-  transition: 0.3s;
-}
-
-.secondary-btn:hover {
-  background: white;
-  color: #667eea;
-  transition: 0.3s;
+  border-radius: 5px;
 }

@@ -1,20 +1,22 @@
-.auth-container {
+.login-container {
   display: flex;
   height: 100vh;
   font-family: Arial;
 }
 
-.auth-left {
+/* LEFT SIDE */
+.login-left {
   flex: 1;
   background: linear-gradient(135deg,#5f72be,#9921e8);
   color: white;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
 }
 
-.auth-right {
+/* RIGHT SIDE */
+.login-right {
   flex: 1;
   background: #1e1e2f;
   color: white;
@@ -24,7 +26,7 @@
   justify-content: center;
 }
 
-.auth-right input {
+.login-right input {
   margin-top: 15px;
   padding: 14px;
   border-radius: 8px;
@@ -33,52 +35,17 @@
   color: white;
 }
 
-.auth-btn {
+.login-right button {
   margin-top: 20px;
   padding: 14px;
   background: #7b61ff;
   border: none;
   border-radius: 8px;
   color: white;
-}
-
-.name-row {
-  display: flex;
-  gap: 10px;
-}
-
-.toggle-text {
-  margin-top: 20px;
-}
-
-.toggle-text span {
-  color: #7b61ff;
   cursor: pointer;
 }
 
-.password-box {
-  position: relative;
-  margin-top: 15px;
-}
-
-.password-box input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 8px;
-  border: none;
-  background: #2a2a40;
-  color: white;
-}
-
-.eye-icon {
-  position: absolute;
-  right: 12px;
-  top: 15px;
-  cursor: pointer;
-  color: gray;
-}
-.forgot {
-  margin-top: 10px;
+.login-right span {
   color: #7b61ff;
   cursor: pointer;
 }

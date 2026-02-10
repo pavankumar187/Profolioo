@@ -1,0 +1,24 @@
+.profile-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1e1e2f;
+}
+
+.profile-card {
+  background: #2a2a40;
+  padding: 40px;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+}
+
+.profile-card button {
+  margin-top: 20px;
+  padding: 12px;
+  border: none;
+  background: #7b61ff;
+  color: white;
+  border-radius: 8px;
+}

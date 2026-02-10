@@ -2,7 +2,7 @@ import { useState } from "react";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-
+import "./Login.css";
 function Login() {
 
   const [email, setEmail] = useState("");
@@ -21,7 +21,7 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="login-right">
       <h2>Login</h2>
 
       <input

@@ -1,58 +1,92 @@
 import { useState } from "react";
+import "./AuthPage.css";
 import { auth } from "../firebase";
 import {
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup
 } from "firebase/auth";
-
-import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import "./AuthPage.css";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { Eye, EyeOff } from "lucide-react";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 function AuthPage() {
 
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
 
+  // Forgot Password
+  const handleResetPassword = () => {
+    if (!email) {
+      alert("Enter email first");
+      return;
+    }
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => alert("Password reset email sent"))
+      .catch((err) => alert(err.message));
+  };
+
+  // Login / Signup
   const handleAuth = () => {
-         if (!email.includes("@")) {
-  alert("Enter valid email");
-  return;
-}
 
-if (password.length < 6) {
-  alert("Password must be 6+ characters");
-  return;
-}
-
-
+    if (!email || !password) {
+      alert("Please enter email and password");
+      return;
+    }
 
     if (isLogin) {
+
       signInWithEmailAndPassword(auth, email, password)
         .then(() => navigate("/dashboard"))
         .catch((err) => alert(err.message));
-    }
-    else {
+
+    } else {
+
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert("Account Created");
+        .then(async (userCredential) => {
+
+          const user = userCredential.user;
+
+          await setDoc(doc(db, "users", user.uid), {
+            email: user.email,
+            createdAt: new Date()
+          });
+
+          alert("Account created successfully");
           setIsLogin(true);
+
         })
         .catch((err) => alert(err.message));
     }
   };
 
+  // Google Login
+  const handleGoogleLogin = () => {
+
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+      .then(() => navigate("/dashboard"))
+      .catch((err) => alert(err.message));
+  };
+
   return (
     <div className="auth-container">
 
+      <button className="google-btn" onClick={handleGoogleLogin}>
+        Continue with Google
+      </button>
+
       {/* LEFT */}
       <div className="auth-left">
-        <h2>Profolio</h2>
+        <h2 className="brand">Profolio</h2>
         <p>Build Career. Build Future.</p>
       </div>
 
@@ -61,17 +95,25 @@ if (password.length < 6) {
 
         <h1>{isLogin ? "Login" : "Create Account"}</h1>
 
+        {!isLogin && (
+          <div className="name-row">
+            <input placeholder="First Name" />
+            <input placeholder="Last Name" />
+          </div>
+        )}
+
         <input
           placeholder="Email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* PASSWORD WITH TOGGLE */}
         <div className="password-box">
 
           <input
             placeholder="Password"
             type={showPassword ? "text" : "password"}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
@@ -83,6 +125,10 @@ if (password.length < 6) {
           </span>
 
         </div>
+
+        <p className="forgot" onClick={handleResetPassword}>
+          Forgot Password?
+        </p>
 
         <button className="auth-btn" onClick={handleAuth}>
           {isLogin ? "Login" : "Create Account"}
@@ -103,5 +149,3 @@ if (password.length < 6) {
 }
 
 export default AuthPage;
-
-
