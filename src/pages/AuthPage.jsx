@@ -12,8 +12,14 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+  
 
 function AuthPage() {
+
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,7 +50,7 @@ function AuthPage() {
     if (isLogin) {
 
       signInWithEmailAndPassword(auth, email, password)
-        .then(() => navigate("/dashboard"))
+        .then(() => navigate(from, { replace: true }))
         .catch((err) => alert(err.message));
 
     } else {

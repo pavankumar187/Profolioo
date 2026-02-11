@@ -1,111 +1,155 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect} from "react";
+import "./PortfolioBuilder.css";
 import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { getDoc } from "firebase/firestore";
+
+
+
 
 function PortfolioBuilder() {
+    useEffect(() => {
 
-  const location = useLocation();
-  const selectedTemplate = location.state?.template || "modern";
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
 
-  const [name, setName] = useState("");
-  const [skills, setSkills] = useState("");
-  const [projects, setProjects] = useState("");
+    if (!user) return;
 
-  // SAVE PORTFOLIO
+    const docRef = doc(db, "portfolios", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setFormData(docSnap.data());
+    }
+
+  });
+
+  return () => unsubscribe();
+
+}, []);
+
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+
+  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  return () => unsubscribe();
+
+}, []);
+console.log("Logged User:", user);
+
   const handleSavePortfolio = async () => {
 
-    const user = auth.currentUser;
+  if (!user) {
+    alert("Please login first");
+    return;
+  }
 
-    if (!user) {
-      alert("Please login first");
-      return;
-    }
+  try {
 
-    try {
+    await setDoc(
+      doc(db, "portfolios", user.uid),
+      formData
+    );
 
-      await setDoc(doc(db, "portfolios", user.uid), {
-        name,
-        skills,
-        projects,
-        template: selectedTemplate,
-        createdAt: new Date()
-      });
+    alert("Portfolio Saved Successfully");
 
-      alert("Portfolio Saved Successfully");
+  } catch (error) {
+    alert(error.message);
+  }
 
-    } catch (error) {
-      alert(error.message);
-    }
+};
+
+
+  const [formData, setFormData] = useState({
+    name: "",
+    title: "",
+    bio: "",
+    skills: "",
+    github: "",
+    linkedin: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   return (
-    <div style={{ padding: "30px" }}>
+    <div className="builder-container">
 
-      <h2>Portfolio Builder</h2>
-      <h3>Selected Template: {selectedTemplate}</h3>
+      {/* LEFT FORM */}
+      <div className="builder-form">
 
-      {/* FORM */}
-      <div style={{ marginTop: "20px" }}>
+        <h2>Build Your Portfolio</h2>
 
         <input
+          name="name"
           placeholder="Your Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={handleChange}
         />
 
-        <br /><br />
+        <input
+          name="title"
+          placeholder="Professional Title"
+          onChange={handleChange}
+        />
+
+        <textarea
+          name="bio"
+          placeholder="Short Bio"
+          onChange={handleChange}
+        />
 
         <input
+          name="skills"
           placeholder="Skills (comma separated)"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
+          onChange={handleChange}
         />
-
-        <br /><br />
 
         <input
-          placeholder="Projects"
-          value={projects}
-          onChange={(e) => setProjects(e.target.value)}
+          name="github"
+          placeholder="GitHub Link"
+          onChange={handleChange}
         />
 
-        <br /><br />
-
+        <input
+          name="linkedin"
+          placeholder="LinkedIn Link"
+          onChange={handleChange}
+        />
         <button onClick={handleSavePortfolio}>
-          Save Portfolio
-        </button>
+  Save Portfolio
+</button>
 
       </div>
 
-      {/* LIVE PREVIEW */}
-      <hr style={{ margin: "30px 0" }} />
+      {/* RIGHT PREVIEW */}
+      <div className="builder-preview">
 
-      <h2>Portfolio Preview</h2>
+        <h2>{formData.name || "Your Name"}</h2>
+        <h4>{formData.title || "Your Title"}</h4>
 
-      <div
-        style={{
-          border: "1px solid gray",
-          padding: "20px",
-          marginTop: "20px",
-          borderRadius: "10px"
-        }}
-      >
-
-        <h1>{name || "Your Name"}</h1>
+        <p>{formData.bio || "Your bio appears here..."}</p>
 
         <p>
-          <strong>Skills:</strong> {skills || "Your skills here"}
+          <strong>Skills:</strong>{" "}
+          {formData.skills || "Your skills"}
         </p>
 
-        <p>
-          <strong>Projects:</strong> {projects || "Your projects here"}
-        </p>
+        <div className="links">
+          {formData.github && <a href={formData.github}>GitHub</a>}
+          {formData.linkedin && <a href={formData.linkedin}>LinkedIn</a>}
+        </div>
 
       </div>
 
     </div>
   );
-}
 
+}
 export default PortfolioBuilder;

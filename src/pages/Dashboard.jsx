@@ -1,9 +1,11 @@
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
-
+  
+  
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -11,12 +13,17 @@ function Dashboard() {
       navigate("/login");
     });
   };
-
   return (
     <div>
+      <Link to="/profile"> Profile</Link>
       <h1>Welcome To Dashboard 🎉</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
+
+    
+
+
+    
   );
 }
 

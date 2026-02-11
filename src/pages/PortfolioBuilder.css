@@ -1,0 +1,43 @@
+.builder-container {
+  display: flex;
+  padding: 40px;
+  gap: 40px;
+}
+
+/* LEFT FORM */
+
+.builder-form {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.builder-form input,
+.builder-form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.builder-form textarea {
+  height: 100px;
+}
+
+/* RIGHT PREVIEW */
+
+.builder-preview {
+  width: 60%;
+  background: #f4f6f8;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.builder-preview h2 {
+  margin-bottom: 5px;
+}
+
+.links a {
+  margin-right: 15px;
+  color: #3fa9f5;
+}
