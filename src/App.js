@@ -5,6 +5,10 @@ import Templates from "./pages/Templates";
 import AuthPage from "./pages/AuthPage";
 import PortfolioBuilder from "./pages/PortfolioBuilder";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicPortfolio from "./pages/PublicPortfolio";
+
+
+
 
 
 
@@ -17,6 +21,10 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/templates" element={<Templates />} />
         <Route path="/login" element={<AuthPage />} />
+        <Route path="/portfolio/:uid" element={<PublicPortfolio />} />
+<Route path="/portfolio-builder" element={<PortfolioBuilder />} />
+<Route path="/portfolio/:uid" element={<PublicPortfolio />} />
+
         <Route 
   path="/portfolio-builder"
   element={

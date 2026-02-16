@@ -13,7 +13,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useLocation } from "react-router-dom";
-import { useLocation } from "react-router-dom";
   
 
 function AuthPage() {
