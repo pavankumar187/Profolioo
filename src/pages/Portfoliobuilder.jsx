@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function PortfolioBuilder() {
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -16,8 +17,30 @@ function PortfolioBuilder() {
     skills: "",
     github: "",
     linkedin: "",
-    profileImage: ""
+    profileImage: "",
+    projects: []
   });
+
+  // 🔹 Add Project
+  const addProject = () => {
+    setFormData({
+      ...formData,
+      projects: [
+        ...formData.projects,
+        { title: "", description: "", link: "" }
+      ]
+    });
+  };
+
+  const handleProjectChange = (index, field, value) => {
+    const updatedProjects = [...formData.projects];
+    updatedProjects[index][field] = value;
+
+    setFormData({
+      ...formData,
+      projects: updatedProjects
+    });
+  };
 
   // 🔐 Track logged in user
   useEffect(() => {
@@ -25,26 +48,32 @@ function PortfolioBuilder() {
       setUser(currentUser);
       setLoading(false);
     });
+
     return () => unsubscribe();
   }, []);
 
   // 📥 Load saved portfolio
-  useEffect(() => {
-    if (!user) return;
+    useEffect(() => {
+  if (!user) return;
 
-    const fetchPortfolio = async () => {
-      const docRef = doc(db, "portfolios", user.uid);
-      const docSnap = await getDoc(docRef);
+  const fetchPortfolio = async () => {
+    const docRef = doc(db, "portfolios", user.uid);
+    const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        setFormData(docSnap.data());
-      }
-    };
+    if (docSnap.exists()) {
+      const data = docSnap.data();
 
-    fetchPortfolio();
-  }, [user]);
+      setFormData({
+        ...data,
+        projects: data.projects || []   // 🔥 Prevents map error
+      });
+    }
+  };
 
-  // 📸 Upload Image
+  fetchPortfolio();
+}, [user]);
+
+  // 📸 Upload profile image
   const handleImageUpload = async (e) => {
     if (!user) {
       alert("Please login first");
@@ -58,15 +87,15 @@ function PortfolioBuilder() {
     await uploadBytes(imageRef, file);
     const downloadURL = await getDownloadURL(imageRef);
 
-    setFormData((prev) => ({
-      ...prev,
+    setFormData({
+      ...formData,
       profileImage: downloadURL
-    }));
+    });
 
     alert("Image Uploaded Successfully");
   };
 
-  // 💾 Save Portfolio
+  // 💾 Save portfolio
   const handleSavePortfolio = async () => {
     if (!user) {
       alert("Please login first");
@@ -100,70 +129,161 @@ function PortfolioBuilder() {
   if (loading) return <h2>Loading...</h2>;
 
   return (
-    <div className="builder-container">
+  <div className="builder-container">
 
-      {/* LEFT SIDE FORM */}
-      <div className="builder-form">
-        <h2>Build Your Portfolio</h2>
+    {/* LEFT FORM */}
+    <div className="builder-form">
 
-        <input name="name" placeholder="Your Name" onChange={handleChange} value={formData.name} />
-        <input name="title" placeholder="Professional Title" onChange={handleChange} value={formData.title} />
-        <textarea name="bio" placeholder="Short Bio" onChange={handleChange} value={formData.bio} />
-        <input name="skills" placeholder="Skills (comma separated)" onChange={handleChange} value={formData.skills} />
-        <input name="github" placeholder="GitHub Link" onChange={handleChange} value={formData.github} />
-        <input name="linkedin" placeholder="LinkedIn Link" onChange={handleChange} value={formData.linkedin} />
+      <h2>Build Your Portfolio</h2>
 
-        <input type="file" onChange={handleImageUpload} />
+      <input name="name" placeholder="Your Name"
+        value={formData.name}
+        onChange={handleChange}
+      />
 
-        <button onClick={handleSavePortfolio}>
-          Save Portfolio
-        </button>
-      </div>
+      <input name="title" placeholder="Professional Title"
+        value={formData.title}
+        onChange={handleChange}
+      />
 
-      {/* RIGHT SIDE PREVIEW */}
-      <div className="builder-preview">
+      <textarea name="bio" placeholder="Short Bio"
+        value={formData.bio}
+        onChange={handleChange}
+      />
 
-        {formData.profileImage && (
-          <img
-            src={formData.profileImage}
-            alt="Profile"
-            className="preview-image"
+      <input name="skills" placeholder="Skills"
+        value={formData.skills}
+        onChange={handleChange}
+      />
+
+      <input name="github" placeholder="GitHub Link"
+        value={formData.github}
+        onChange={handleChange}
+      />
+
+      <input name="linkedin" placeholder="LinkedIn Link"
+        value={formData.linkedin}
+        onChange={handleChange}
+      />
+
+      <h3>Projects</h3>
+
+      {formData.projects?.map((project, index) => (
+        <div key={index}>
+          <input
+            placeholder="Project Title"
+            value={project.title}
+            onChange={(e) =>
+              handleProjectChange(index, "title", e.target.value)
+            }
           />
-        )}
-
-        <h2>{formData.name || "Your Name"}</h2>
-        <h4>{formData.title || "Your Title"}</h4>
-        <p>{formData.bio || "Your bio appears here..."}</p>
-
-        <p><strong>Skills:</strong> {formData.skills || "Your skills"}</p>
-
-        <div className="links">
-          {formData.github && <a href={formData.github} target="_blank" rel="noreferrer">GitHub</a>}
-          {formData.linkedin && <a href={formData.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>}
+          <input
+            placeholder="Project Description"
+            value={project.description}
+            onChange={(e) =>
+              handleProjectChange(index, "description", e.target.value)
+            }
+          />
+          <input
+            placeholder="Project Link"
+            value={project.link}
+            onChange={(e) =>
+              handleProjectChange(index, "link", e.target.value)
+            }
+          />
         </div>
+      ))}
 
-        {user && (
-          <div className="public-buttons">
-            <button onClick={() => window.open(`/portfolio/${user.uid}`, "_blank")}>
-              View Public Portfolio
-            </button>
+      <button onClick={addProject}>+ Add Project</button>
 
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `${window.location.origin}/portfolio/${user.uid}`
-                );
-                alert("Link Copied!");
-              }}
-            >
-              Copy Public Link
-            </button>
-          </div>
-        )}
+      <input type="file" onChange={handleImageUpload} />
 
-      </div>
+      <button onClick={handleSavePortfolio}>
+        Save Portfolio
+      </button>
+
     </div>
-  );
-}
 
+    {/* RIGHT PREVIEW */}
+    <div className="builder-preview">
+
+      {formData.profileImage && (
+        <img
+          src={formData.profileImage}
+          alt="Profile"
+          style={{
+            width: "120px",
+            height: "120px",
+            borderRadius: "50%",
+            objectFit: "cover"
+          }}
+        />
+      )}
+
+      <h2>{formData.name}</h2>
+      <h4>{formData.title}</h4>
+      <p>{formData.bio}</p>
+
+      <p><strong>Skills:</strong> {formData.skills}</p>
+
+      <div className="links">
+        {formData.github && (
+          <a href={formData.github} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        )}
+        {formData.linkedin && (
+          <a href={formData.linkedin} target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+        )}
+      </div>
+
+      {formData.projects?.length > 0 && (
+        <>
+          <h3>Projects</h3>
+          {formData.projects.map((proj, index) => (
+            <div key={index}>
+              <h4>{proj.title}</h4>
+              <p>{proj.description}</p>
+              {proj.link && (
+                <a href={proj.link} target="_blank" rel="noreferrer">
+                  View Project
+                </a>
+              )}
+            </div>
+          ))}
+        </>
+      )}
+
+      {/* 🔥 BUTTONS */}
+      {user && (
+        <div style={{ marginTop: "20px" }}>
+          <button
+            onClick={() =>
+              window.open(`/portfolio/${user.uid}`, "_blank")
+            }
+          >
+            View Public Portfolio
+          </button>
+
+          <button
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `${window.location.origin}/portfolio/${user.uid}`
+              );
+              alert("Link Copied!");
+            }}
+          >
+            Copy Public Link
+          </button>
+        </div>
+      )}
+
+    </div>
+
+  </div>
+);
+}
 export default PortfolioBuilder;

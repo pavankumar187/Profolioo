@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import "./PublicPortfolio.css";
 
 function PublicPortfolio() {
@@ -21,45 +21,78 @@ function PublicPortfolio() {
     fetchPortfolio();
   }, [uid]);
 
-  if (!portfolio) return <h2>Loading...</h2>;
+  if (!portfolio) return <h2 className="loading">Loading...</h2>;
 
   return (
-    <div className="public-container">
+  <div className="public-container">
 
-      <div className="public-card">
-        {portfolio.profileImage && (
-          <img src={portfolio.profileImage} alt="Profile" />
-        )}
+    <div className="public-card">
 
-        <h1>{portfolio.name}</h1>
-        <h3>{portfolio.title}</h3>
+      {portfolio.profileImage && (
+        <img
+          src={portfolio.profileImage}
+          alt="Profile"
+          className="public-avatar"
+        />
+      )}
 
-        <p className="bio">{portfolio.bio}</p>
+      <h1>{portfolio.name}</h1>
+      <h3>{portfolio.title}</h3>
 
-        <div className="skills">
-          {portfolio.skills &&
-            portfolio.skills.split(",").map((skill, index) => (
-              <span key={index}>{skill.trim()}</span>
-            ))}
-        </div>
+      <p className="public-bio">{portfolio.bio}</p>
 
-        <div className="public-links">
-          {portfolio.github && (
-            <a href={portfolio.github} target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-          )}
-
-          {portfolio.linkedin && (
-            <a href={portfolio.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn
-            </a>
-          )}
-        </div>
-
+      {/* SKILLS */}
+      <div className="skills">
+        {portfolio.skills?.split(",").map((skill, index) => (
+          <span key={index} className="skill-tag">
+            {skill.trim()}
+          </span>
+        ))}
       </div>
-    </div>
-  );
-}
 
+      {/* LINKS */}
+      <div className="public-links">
+        {portfolio.github && (
+          <a href={portfolio.github} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        )}
+        {portfolio.linkedin && (
+          <a href={portfolio.linkedin} target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+        )}
+      </div>
+
+      {/* PROJECTS */}
+      {portfolio.projects?.length > 0 && (
+        <>
+          <h2 style={{ marginTop: "30px" }}>Projects</h2>
+
+          <div className="project-grid">
+            {portfolio.projects.map((proj, index) => (
+              <div key={index} className="project-card">
+                <h4>{proj.title}</h4>
+                <p>{proj.description}</p>
+
+                {proj.link && (
+                  <a
+                    href={proj.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-btn"
+                  >
+                    View Project
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+    </div>
+  </div>
+);
+}
 export default PublicPortfolio;

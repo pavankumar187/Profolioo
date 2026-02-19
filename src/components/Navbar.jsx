@@ -16,6 +16,10 @@ const handleLogout = () => {
       <Link to="/resume">Resume Generator</Link> | 
       <Link to="/login">Login</Link> | 
       <Link to="/signup">Signup</Link>
+      <Link to="/resume-builder">
+  Resume Builder
+</Link>
+
 
       <button onClick={handleLogout}>
   Logout

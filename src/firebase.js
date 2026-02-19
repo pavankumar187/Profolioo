@@ -1,10 +1,7 @@
-  import { initializeApp } from "firebase/app";
-  import { getAuth } from "firebase/auth";
-  import { getFirestore } from "firebase/firestore";
-  import { getStorage } from "firebase/storage";  
-
-export const storage = getStorage(app);
-
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -17,7 +14,13 @@ const firebaseConfig = {
   measurementId: "G-P78C11T7HK"
 };
 
-  const app = initializeApp(firebaseConfig);
+// ✅ Step 1 — Initialize app FIRST
+const app = initializeApp(firebaseConfig);
 
-  export const auth = getAuth(app);
-  export const db = getFirestore(app);
+// ✅ Step 2 — Initialize services AFTER app
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+// ✅ Step 3 — Export at bottom
+export { auth, db, storage };
