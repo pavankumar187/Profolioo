@@ -11,7 +11,7 @@ import ResumeTemplates from "./pages/ResumeTemplates";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
 
         {/* Public Pages */}
@@ -52,7 +52,7 @@ function App() {
         />
 
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
