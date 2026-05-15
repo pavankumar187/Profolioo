@@ -7,7 +7,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
 
-
 function LandingPage() {
 
   const navigate = useNavigate();
@@ -38,16 +37,14 @@ const [menuOpen, setMenuOpen] = useState(false);
   <h2 className="logo">ProFolio</h2>
 </div>
   <div className={`nav-links ${menuOpen ? "active" : ""}`}>
-    <a href="#home">Home</a>
-<a href="#resume">Resume</a>
-<a href="#portfolio">Portfolio</a>
-<a href="#pricing">Pricing</a>
-<a href="">Login/Signup</a>
-<button onClick={handleLogout} className="logout-btn">
-  Logout
-</button>
+  <a href="#home">Home</a>
+  <a href="#pricing">Pricing</a>
+  <Link to="/login">Login / Signup</Link>
 
-  </div>
+  <button onClick={handleLogout} className="logout-btn">
+    Logout
+  </button>
+</div>
 
   <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
     ☰
@@ -66,10 +63,9 @@ const [menuOpen, setMenuOpen] = useState(false);
     </p>
 
     <div className="hero-buttons" data-aos="fade-up" >
-      <Link to="/resume" className="primary-btn">
-        Create Resume
-      </Link>
-
+      <Link to="/resume-templates" className="primary-btn">
+  Create Resume
+</Link>
       <Link to="/portfolio-builder" className="secondary-btn">
         Create Portfolio
       </Link>

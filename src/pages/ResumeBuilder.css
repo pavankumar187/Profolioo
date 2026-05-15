@@ -1,0 +1,200 @@
+.resume-container {
+  display: flex;
+  padding: 40px;
+  gap: 40px;
+}
+
+.resume-form {
+  width: 40%;
+}
+
+.resume-preview {
+  width: 60%;
+  background: white;
+  padding: 30px;
+}
+.download-btn{
+  margin-top:20px;
+  padding:10px 20px;
+  background:#4f46e5;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+.resume-container{
+  display:flex;
+  gap:40px;
+  padding:40px;
+}
+
+.resume-form{
+  width:40%;
+}
+
+.resume-form input,
+.resume-form textarea{
+  width:100%;
+  margin-bottom:10px;
+  padding:10px;
+}
+
+.resume-preview{
+  width:60%;
+  background:white;
+  padding:30px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.resume-header{
+  border-bottom:2px solid #eee;
+  margin-bottom:20px;
+}
+
+.resume-body{
+  display:flex;
+  gap:30px;
+}
+
+.left{
+  width:35%;
+}
+
+.right{
+  width:65%;
+}
+
+/* MODERN */
+
+.resume-preview.modern{
+  background:white;
+  border-left:6px solid #4f46e5;
+}
+
+/* PROFESSIONAL */
+
+.resume-preview.professional{
+  background:#f8fafc;
+  border-top:6px solid #1e293b;
+}
+
+/* MINIMAL */
+
+.resume-preview.minimal{
+  background:white;
+  font-family:serif;
+}
+
+.template-selector{
+margin-bottom:20px;
+}
+
+.template-cards{
+display:flex;
+gap:15px;
+}
+
+.template-card{
+width:120px;
+cursor:pointer;
+border:2px solid transparent;
+border-radius:10px;
+padding:10px;
+text-align:center;
+background:white;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+
+.template-card.active{
+border:2px solid #4f46e5;
+}
+
+.template-preview{
+height:80px;
+border-radius:6px;
+margin-bottom:8px;
+}
+
+/* preview styles */
+
+.modern-preview{
+background:linear-gradient(90deg,#4f46e5,#818cf8);
+}
+
+.professional-preview{
+background:#1e293b;
+}
+
+.minimal-preview{
+background:#e5e7eb;
+}
+
+.template{
+padding:30px;
+background:white;
+}
+
+.modern-template h1{
+color:#4f46e5;
+}
+
+.professional-template .pro-header{
+border-bottom:3px solid #1e293b;
+margin-bottom:20px;
+}
+
+.pro-body{
+display:flex;
+gap:30px;
+}
+
+.minimal-template{
+font-family:serif;
+}
+.modern-template{
+background:white;
+padding:30px;
+font-family:Arial;
+}
+
+.modern-template .header{
+border-bottom:3px solid #4f46e5;
+margin-bottom:20px;
+}
+
+.modern-template h1{
+color:#4f46e5;
+}
+.professional-template{
+background:white;
+padding:30px;
+}
+
+.pro-header{
+border-bottom:2px solid black;
+margin-bottom:20px;
+}
+
+.pro-body{
+display:flex;
+gap:30px;
+}
+.developer-template{
+background:#111;
+color:white;
+padding:30px;
+font-family:monospace;
+}
+
+.dev-header{
+border-bottom:2px solid #00ff9d;
+margin-bottom:20px;
+}
+
+.dev-header h1{
+color:#00ff9d;
+}
+.resume-preview{
+  padding:20px;
+  background:white;
+}
